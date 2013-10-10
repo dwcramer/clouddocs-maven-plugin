@@ -282,21 +282,19 @@
 			</informaltable>
 
 			<xsl:if test="wadl:response[starts-with(normalize-space(@status),'2') or starts-with(normalize-space(@status),'3')]">
-                <simpara>
-                    Normal Response Code(s):
-					<xsl:apply-templates select="wadl:response" mode="preprocess-normal"/>
-                </simpara>
+			  <formalpara><title>Normal Response Code(s):</title><para><xsl:apply-templates select="wadl:response" mode="preprocess-normal"/></para>
+			  </formalpara>
 			</xsl:if>
 			<xsl:if test="wadl:response[not(starts-with(normalize-space(@status),'2') or starts-with(normalize-space(@status),'3'))]">
-                <simpara>
-                    Error Response Code(s):
+			  <formalpara><title>Error Response Code(s):</title><para>
                     <!--
                         Put those errors that don't have a set status
                         up front.  These are typically general errors.
                     -->
-					<xsl:apply-templates select="wadl:response[not(@status)]" mode="preprocess-faults"/>
-					<xsl:apply-templates select="wadl:response[@status]" mode="preprocess-faults"/>
-                </simpara>
+		    <xsl:apply-templates select="wadl:response[not(@status)]" mode="preprocess-faults"/>
+		    <xsl:apply-templates select="wadl:response[@status]" mode="preprocess-faults"/>
+		  </para>
+			  </formalpara>
 			</xsl:if>
 
             <!-- Method Docs -->

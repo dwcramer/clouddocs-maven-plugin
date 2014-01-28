@@ -11,13 +11,20 @@
   <p:import href="classpath:///rackspace-library.xpl"/><!-- classpath:/// -->
   <p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
 
+  <cx:message>
+    <p:with-option name="message" select="concat('!!!!!Vendor: ', p:system-property('p:product-name'))"/>
+  </cx:message>
+  <cx:message>
+    <p:with-option name="message" select="concat('!!!!Version: ', p:system-property('p:product-version'))"/>
+  </cx:message>
+
   <l:validate-docbook-format  name="validate-docbook-format-webhelp">
     <p:with-option name="docbookNamespace" select="'http://docbook.org/ns/docbook'"/>
   </l:validate-docbook-format>
 
   <p:add-xml-base name="adding-xml-base-webhelp"/>
   
-  <p:xinclude fixup-xml-base="true" name="xincluding"/>
+  <p:xinclude cx:mark-roots="true" cx:copy-attributes="true" fixup-xml-base="true" name="xincluding"/>
 
   <l:normalize-olinks name="normalize-olinks"/>
 

@@ -602,6 +602,8 @@ setting failOnValidationError to no in your pom.
                 <p:variable name="href" select="/*/@href"/>
                 <p:variable name="newhref" select="/*/@newhref"/>
                 <p:variable name="checksum" select="/*/@checksum"/>
+                <p:variable name="targetHtmlContentDir" select="/*/@targetHtmlContentDir"/>
+                <p:variable name="basefilename" select="/*/@basefilename"/>
                 <p:load name="wadl">
                     <p:with-option name="href" select="$href"/>
                 </p:load>
@@ -645,6 +647,31 @@ setting failOnValidationError to no in your pom.
                   <p:store encoding="utf-8" indent="true" omit-xml-declaration="false">
                    <p:with-option name="href" select="$newhref"/>
                   </p:store>
+                  <p:xslt name="wadl2jsonx">
+                      <p:input port="source">
+                          <p:pipe port="result" step="normalize-wadl"/>
+                      </p:input>
+                      <p:input port="stylesheet">
+                          <p:document href="classpath:///cloud/normalizeWadl/wadl2apiary-jsonx.xsl"/>
+                      </p:input>
+                      <p:input port="parameters">
+                          <p:pipe step="normalize-wadls-step" port="parameters"/>
+                      </p:input>                      
+                  </p:xslt>        
+                  <p:xslt name="jsonx2json">
+                    <p:input port="source">
+                        <p:pipe port="result" step="wadl2jsonx"/>
+                    </p:input>
+                    <p:input port="stylesheet">
+                        <p:document href="classpath:///cloud/normalizeWadl/jsonx2json.xsl"/>
+                    </p:input>
+                    <p:input port="parameters">
+                        <p:pipe step="normalize-wadls-step" port="parameters"/>
+                    </p:input>                      
+                   </p:xslt> 
+                  <p:store encoding="utf-8" indent="true" method="text">
+                      <p:with-option name="href" select="concat($targetHtmlContentDir,'/', $basefilename, '.json')"/>
+                   </p:store>
               <p:for-each>
               <p:iteration-source>
                <p:pipe step="normalize-wadl" port="secondary"/>

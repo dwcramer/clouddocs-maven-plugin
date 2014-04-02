@@ -10,6 +10,8 @@
   <!-- <xsl:import href="urn:docbkx:stylesheet-orig/xsl/webhelp.xsl" /> -->
   <xsl:import href="webhelp.xsl" />
   <xsl:import href="titlepage.templates.xsl"/>
+  
+  <!--<xsl:import href="/home/dcramer/rax/clouddocs-maven-plugin-stackforge/target/classes/cloud/war/dist/xslt/base/html/titlepage-templates.xsl"/>-->
   <xsl:import href="changebars.xsl"/>
   <xsl:import href="graphics.xsl"/>
   <xsl:import href="../this.xsl"/>
@@ -33,6 +35,7 @@
       <xsl:otherwise>/comments.php</xsl:otherwise>
     </xsl:choose>
   </xsl:param>
+  <xsl:param name="branding">not set</xsl:param>
   <xsl:param name="pdfFilenameBase"/>
     <xsl:param name="includeDateInPdfFilename">
         <xsl:choose>
@@ -73,7 +76,6 @@
     </xsl:call-template>
   </xsl:param>
   <xsl:param name="use.id.as.filename" select="1"/>
-  <xsl:param name="branding">not set</xsl:param>
   <xsl:param name="autoPdfUrl"></xsl:param>
   <xsl:param name="useLatestSuffixInPdfUrl">
     <xsl:choose>
@@ -294,8 +296,95 @@ ERROR: Feedback email not set but internal comments are enabled.
     </xsl:template>
 
     <xsl:template name="breadcrumbs">
-      <xsl:param name="home"/>
-      <xsl:variable name="pubdate"><xsl:if test="not($security = 'external') and not($security = '') and $pdfFilenameBase = ''">-<xsl:value-of select="$security"/></xsl:if><xsl:if test="/*/d:info/d:pubdate and $includeDateInPdfFilename = '1'"><xsl:value-of select="concat('-',translate(/*/d:info/d:pubdate,'-',''))"/></xsl:if></xsl:variable>
+        <xsl:param name="next"/>
+        <xsl:param name="prev"/>
+        <xsl:param name="nav.context"/>
+        
+        <xsl:variable name="home" select="/*[1]"/>
+        <xsl:variable name="up" select="parent::*"/>
+        
+        <xsl:variable name="pubdate"><xsl:if test="not($security = 'external') and not($security = '') and $pdfFilenameBase = ''">-<xsl:value-of select="$security"/></xsl:if><xsl:if test="/*/d:info/d:pubdate and $includeDateInPdfFilename = '1'"><xsl:value-of select="concat('-',translate(/*/d:info/d:pubdate,'-',''))"/></xsl:if></xsl:variable>        
+        <xsl:choose>
+            <xsl:when test="$branding = 'rackspace' or $branding = 'rackspace-private-cloud'">
+                <div class="breadcrumbs">
+                    <a href="/">Home</a>
+                    <a><xsl:attribute name="href">
+                        <xsl:call-template name="href.target">
+                            <xsl:with-param name="object" select="$home"/>
+                        </xsl:call-template>
+                    </xsl:attribute><xsl:value-of select="normalize-space(//d:title[1])"/><xsl:apply-templates select="/*/d:info/d:releaseinfo[1]" mode="rackspace-title"/></a>
+                    <xsl:choose>
+                        <xsl:when test="normalize-space($autoPdfUrl) != '' and $useLatestSuffixInPdfUrl = '0'">
+                            <a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" class="pdficon" href="{concat(normalize-space(substring($autoPdfUrl,1,string-length($autoPdfUrl) - 3)), $pubdate,'.pdf')}"><img src="{$webhelp.common.dir}images/pdf.png"/></a>
+                        </xsl:when>
+                        <xsl:when test="normalize-space($autoPdfUrl) != ''">
+                            <a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" class="pdficon" href="{normalize-space(substring($autoPdfUrl,1,string-length($autoPdfUrl) - 3))}-latest.pdf"><img src="{$webhelp.common.dir}images/pdf.png"/></a>
+                        </xsl:when>
+                        <xsl:when test="normalize-space($pdf.url) != '' and not(normalize-space($autoPdfUrl) != '')">
+                            <a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" class="pdficon" href="{normalize-space($pdf.url)}"><img src="{$webhelp.common.dir}images/pdf.png"/></a>
+                        </xsl:when>
+                    </xsl:choose>
+                    <xsl:if test="//d:revhistory/d:revision and $canonical.url.base != ''">
+                        &#160;
+                        <a href="../atom.xml"><img alt="Atom feed of this document" src="{$webhelp.common.dir}images/feed-icon.png"/></a>
+                    </xsl:if>
+                </div>
+                <div id="toolbar-right">
+                    <a  id="showHideButton" onclick="showHideToc();" class="pointLeft">Contents</a> <!--<a class="navLinkPrevious" href="#">Prev</a> | <a href="#">Up</a> | <a class="navLinkNext" href="#">Next</a>-->
+                    <xsl:if test="count($prev) &gt; 0
+                        or (count($up) &gt; 0
+                        and generate-id($up) != generate-id($home)
+                        and $navig.showtitles != 0)
+                        or count($next) &gt; 0">
+                            <xsl:if test="count($prev)>0">
+                                <a accesskey="p" class="navLinkPrevious" onclick="_gaq.push(['_trackEvent', 'Header', 'prevLink', 'click', 1]);" tabindex="5">
+                                    <xsl:attribute name="href">
+                                        <xsl:call-template name="href.target">
+                                            <xsl:with-param name="object" select="$prev"/>
+                                        </xsl:call-template>
+                                    </xsl:attribute>
+                                    <xsl:call-template name="navig.content">
+                                        <xsl:with-param name="direction" select="'prev'"/>
+                                    </xsl:call-template>
+                                </a>
+                            </xsl:if>
+                            
+                            <!-- "Up" link-->
+                            <xsl:choose>
+                                <xsl:when test="count($up)&gt;0
+                                    and generate-id($up) != generate-id($home)">
+                                    |
+                                    <a accesskey="u" class="navLinkUp" onclick="_gaq.push(['_trackEvent', 'Header', 'upLink', 'click', 1]);" tabindex="5">
+                                        <xsl:attribute name="href">
+                                            <xsl:call-template name="href.target">
+                                                <xsl:with-param name="object" select="$up"/>
+                                            </xsl:call-template>
+                                        </xsl:attribute>
+                                        <xsl:call-template name="navig.content">
+                                            <xsl:with-param name="direction" select="'up'"/>
+                                        </xsl:call-template>
+                                    </a>
+                                </xsl:when>
+                                <xsl:otherwise>&#160;</xsl:otherwise>
+                            </xsl:choose>
+                            
+                            <xsl:if test="count($next)>0">
+                                |
+                                <a accesskey="n" class="navLinkNext" onclick="_gaq.push(['_trackEvent', 'Header', 'nextLink', 'click', 1]);" tabindex="5">
+                                    <xsl:attribute name="href">
+                                        <xsl:call-template name="href.target">
+                                            <xsl:with-param name="object" select="$next"/>
+                                        </xsl:call-template>
+                                    </xsl:attribute>
+                                    <xsl:call-template name="navig.content">
+                                        <xsl:with-param name="direction" select="'next'"/>
+                                    </xsl:call-template>
+                                </a>
+                            </xsl:if>
+                    </xsl:if>
+                </div>
+            </xsl:when>
+            <xsl:otherwise>
       <p class="breadcrumbs"><a href="{$main.docs.url}"><xsl:value-of select="$brandname"/> Manuals</a>  <a><xsl:attribute name="href">
       <xsl:call-template name="href.target">
 	<xsl:with-param name="object" select="$home"/>
@@ -365,6 +454,8 @@ ERROR: Feedback email not set but internal comments are enabled.
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>      
 </div> <!--end social buttons -->
     </xsl:if>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
       <xsl:template name="webhelpheader">
@@ -375,6 +466,20 @@ ERROR: Feedback email not set but internal comments are enabled.
         <xsl:variable name="home" select="/*[1]"/>
         <xsl:variable name="up" select="parent::*"/>
         
+          <xsl:choose>
+              <xsl:when test="$branding = 'rackspace' or $branding = 'rackspace-private-cloud'">
+                  <div id="raxheaderfooterservice-headercontent"><xsl:comment/></div>
+                  <div id="toolbar" class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+                      <div id="toolbar-inner">
+                          <xsl:call-template name="breadcrumbs">
+                              <xsl:with-param name="prev" select="$prev"/>
+                              <xsl:with-param name="next" select="$next"/>
+                              <xsl:with-param name="nav.context" select="$nav.context"/>
+                          </xsl:call-template>
+                      </div>
+                  </div>
+              </xsl:when>
+              <xsl:otherwise>
         <div id="header">
 	  <a onclick="_gaq.push(['_trackEvent', 'Header', 'logo', 'click', 1]);" target="_blank">
 	    <xsl:attribute name="href">
@@ -478,6 +583,8 @@ ERROR: Feedback email not set but internal comments are enabled.
 	      </xsl:call-template>
 	    </div>
 	  </div>
+              </xsl:otherwise>
+          </xsl:choose>
     </xsl:template>
     
     <xsl:template name="webhelptoc">
@@ -538,6 +645,23 @@ ERROR: Feedback email not set but internal comments are enabled.
                     </xsl:choose>
                 </xsl:variable>
                 
+                <xsl:choose>
+                    <xsl:when test="$branding = 'rackspace' or $branding = 'rackspace-private-cloud'">
+                        <div id="rax-leftnavigation" style="padding-top:3px; background-color:white;">
+                            <div id="rax-treeDiv">
+                                <img src="{$webhelp.common.dir}images/loading.gif" alt="loading table of contents..."
+                                    id="tocLoading" style="display:block;"/>
+                                <div id="ulTreeDiv" style="display:none">
+                                    <ul id="tree" class="filetree">
+                                        <xsl:apply-templates select="/*/*" mode="webhelptoc">
+                                            <xsl:with-param name="currentid" select="$currentid"/>
+                                        </xsl:apply-templates>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </xsl:when>
+                    <xsl:otherwise>
                 <div>
                     <div id="leftnavigation" style="padding-top:3px; background-color:white;">
                         <div id="tabs">
@@ -608,7 +732,9 @@ ERROR: Feedback email not set but internal comments are enabled.
                         </div>
                     </div>
                 </div>
-            </xsl:otherwise>
+                    </xsl:otherwise>
+                </xsl:choose>
+                    </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     
@@ -877,5 +1003,48 @@ ERROR: Feedback email not set but internal comments are enabled.
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
+ 
+ 
+    <xsl:template name="navig.content">
+        <xsl:param name="direction" select="d:next"/>
+        <xsl:variable name="navtext">
+            <xsl:choose>
+                <xsl:when test="$direction = 'prev'">
+                    <xsl:call-template name="gentext.nav.prev"/>
+                </xsl:when>
+                <xsl:when test="$direction = 'next'">
+                    <xsl:call-template name="gentext.nav.next"/>
+                </xsl:when>
+                <xsl:when test="$direction = 'up'">
+                    <xsl:call-template name="gentext.nav.up"/>
+                </xsl:when>
+                <xsl:when test="$direction = 'home'">
+                    <xsl:call-template name="gentext.nav.home"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text>xxx</xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        
+        <xsl:choose>
+            <xsl:when test="$navig.graphics != 0">
+                <img>
+                    <xsl:attribute name="src">
+                        <xsl:value-of select="$navig.graphics.path"/>
+                        <xsl:value-of select="$direction"/>
+                        <xsl:value-of select="$navig.graphics.extension"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="alt">
+                        <xsl:value-of select="$navtext"/>
+                    </xsl:attribute>
+                </img>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$navtext"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
  
 </xsl:stylesheet>

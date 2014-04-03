@@ -270,8 +270,10 @@ set       toc,title
 ERROR: Feedback email not set but internal comments are enabled.
               </xsl:message>
           </xsl:if>
-		  <script language="JavaScript" src="{$comments.php}?email={$feedback.email}" type="text/javascript"><xsl:comment/></script>
-		  <noscript>You must have JavaScript enabled to view and post comments.</noscript>
+		  <div id="hashcode">
+    		<script language="JavaScript" src="{$comments.php}?email={$feedback.email}" type="text/javascript"><xsl:comment/></script>
+	   	    <noscript>You must have JavaScript enabled to view and post comments.</noscript>
+		  </div>
 		</xsl:when>
 		<xsl:otherwise>
 
@@ -323,14 +325,11 @@ ERROR: Feedback email not set but internal comments are enabled.
                         <xsl:when test="normalize-space($pdf.url) != '' and not(normalize-space($autoPdfUrl) != '')">
                             <a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" class="pdficon" href="{normalize-space($pdf.url)}"><img src="{$webhelp.common.dir}images/pdf.png"/></a>
                         </xsl:when>
-                    </xsl:choose>
-                    <xsl:if test="//d:revhistory/d:revision and $canonical.url.base != ''">
-                        &#160;
-                        <a href="../atom.xml"><img alt="Atom feed of this document" src="{$webhelp.common.dir}images/feed-icon.png"/></a>
+                    </xsl:choose><xsl:if test="//d:revhistory/d:revision and $canonical.url.base != ''">&#160;<a class="pdficon" href="../atom.xml"><img alt="Atom feed of this document" src="{$webhelp.common.dir}images/feed-icon.png"/></a>
                     </xsl:if>
                 </div>
                 <div id="toolbar-right">
-                    <a  id="showHideButton" onclick="showHideToc();" class="pointLeft">Contents</a> <!--<a class="navLinkPrevious" href="#">Prev</a> | <a href="#">Up</a> | <a class="navLinkNext" href="#">Next</a>-->
+                    <a  id="showHideButton" onclick="showHideToc();" class="pointLeft">Sidebar</a> <!--<a class="navLinkPrevious" href="#">Prev</a> | <a href="#">Up</a> | <a class="navLinkNext" href="#">Next</a>-->
                     <xsl:if test="count($prev) &gt; 0
                         or (count($up) &gt; 0
                         and generate-id($up) != generate-id($home)

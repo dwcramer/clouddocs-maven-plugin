@@ -7,7 +7,7 @@ $(document).ready(function() {
     //Generate the tree
      $("#ulTreeDiv").attr("style","");
     $("#tree").treeview({
-        collapsed: false,
+        collapsed: true,
         animated: "medium",
         control: "#sidetreecontrol",
         persist: "cookie"

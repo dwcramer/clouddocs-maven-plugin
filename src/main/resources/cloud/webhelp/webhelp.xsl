@@ -72,7 +72,12 @@
     <xsl:param name="webhelp.include.search.tab">true</xsl:param>
     <xsl:param name="webhelp.start.filename">index.html</xsl:param>
     <xsl:param name="webhelp.base.dir">docs</xsl:param>
-    <xsl:param name="webhelp.tree.cookie.id" select="concat( 'treeview-', count(//node()) )"/>
+    <xsl:param name="webhelp.tree.cookie.id">
+        <xsl:choose>
+            <xsl:when test="/*/@xml:id"><xsl:value-of select="concat('treeview-',/*/@xml:id)"/></xsl:when>
+            <xsl:otherwise><xsl:value-of select="concat( 'treeview-', count(//node()) )"/></xsl:otherwise>
+        </xsl:choose>
+    </xsl:param>
     <xsl:param name="webhelp.indexer.language">en</xsl:param>
     <xsl:param name="webhelp.default.topic"/>
     <xsl:param name="webhelp.autolabel">0</xsl:param>
@@ -221,7 +226,7 @@ These problems go away when you add this IE=7 mode meta tag.
           <xsl:when test="$branding = 'rackspace' or $branding = 'rackspace-private-cloud'">
               <script type="text/javascript">
                   //The id for tree cookie
-                  var treeCookieId = "<xsl:value-of select="$webhelp.tree.cookie.id"/>";
+                  var treeCookieId = "<xsl:value-of select="normalize-space($webhelp.tree.cookie.id)"/>";
                   txt_browser_not_supported = "<xsl:call-template name="gentext">
                       <xsl:with-param name="key" select="'txt_browser_not_supported'"/>
                   </xsl:call-template>";

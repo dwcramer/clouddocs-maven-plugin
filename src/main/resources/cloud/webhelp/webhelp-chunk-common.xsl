@@ -39,21 +39,22 @@
                 </xsl:call-template>
 
                 <div id="content-wrapper">
-                <div id="content">
+                    <div id="content">
+    
+                        <xsl:copy-of select="$content"/>
+                        
+                        <xsl:call-template name="user.header.content"/>
 
-                    <xsl:copy-of select="$content"/>
-                    
-                    <xsl:call-template name="user.header.content"/>
-
-                    <xsl:call-template name="user.footer.content"/>
-
-                    <xsl:call-template name="footer.navigation">
-                        <xsl:with-param name="prev" select="$prev"/>
-                        <xsl:with-param name="next" select="$next"/>
-                        <xsl:with-param name="nav.context" select="$nav.context"/>
-                    </xsl:call-template>
-                </div>
-
+                        <div id="feedbackid"><xsl:comment/></div>
+                        
+                        <xsl:call-template name="user.footer.content"/>
+    
+                        <xsl:call-template name="footer.navigation">
+                            <xsl:with-param name="prev" select="$prev"/>
+                            <xsl:with-param name="next" select="$next"/>
+                            <xsl:with-param name="nav.context" select="$nav.context"/>
+                        </xsl:call-template>
+                    </div>
                 <xsl:call-template name="user.footer.navigation"/>
                 </div>
                 <div id="raxheaderfooterservice-footercontent"><xsl:comment/></div>

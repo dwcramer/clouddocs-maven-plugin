@@ -258,16 +258,13 @@ These problems go away when you add this IE=7 mode meta tag.
 	&lt;![endif]</xsl:text></xsl:comment>
               <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
               <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}jquery/treeview/jquery.treeview.css"/>
-              <script type="text/javascript" src="http://4dc1562a455e7bbf7090-44d3937fd019508990d0935859ee629c.r56.cf1.rackcdn.com/js/jquery-1.9.1.min.js">
-                  <xsl:comment> </xsl:comment>
-              </script>
+              <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"><xsl:comment/></script>
+              <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"><xsl:comment/></script>
               <script type="text/javascript" 
                   src="http://docs.rackspace.com/rax-headerservice/rest/service/raxheaderservice.js?headerdivid=raxheaderfooterservice-headercontent&amp;footerdivid=raxheaderfooterservice-footercontent&amp;contentdivid=content-wrapper&amp;filter=api_docs&amp;team=api">
-                  <xsl:comment> </xsl:comment>
+                  <xsl:comment/> 
               </script>
-              <script type="text/javascript" src="{$webhelp.common.dir}jquery/jquery-ui-1.8.2.custom.min.js">
-                  <xsl:comment> </xsl:comment>
-              </script>
+              <script type="text/javascript" src="http://docs-feedback.rackspace.com/rax-feedback-services/rest/service/raxfeedbackservice.js?feedbackdivid=feedbackid&amp;servername=docs-feedback.rackspace.com&amp;debug=true"><xsl:comment/></script>
               <script type="text/javascript" src="{$webhelp.common.dir}jquery/jquery.cookie.js">
                   <xsl:comment> </xsl:comment>
               </script>

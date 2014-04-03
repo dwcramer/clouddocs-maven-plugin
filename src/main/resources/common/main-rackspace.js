@@ -16,7 +16,13 @@ $(document).ready(function() {
     //after toc fully styled, display it. Until loading, a 'loading' image will be displayed
     $("#tocLoading").attr("style","display:none;");
 
-    syncToc(); //Synchronize the toc tree with the content pane, when loading the page.
+    var sidebarState = readCookie("webhelp-sidebar");
+    if(sidebarState == "showing" || sidebarState == "hidden") {
+	showHideToc(sidebarState);
+    }
+
+    syncToc(); //Synchronize the toc tree with the content pane, when loading the page.   
+    
 });
 
 /**
@@ -63,18 +69,21 @@ function syncToc(){
  * Code for Show/Hide TOC
  *
  */
-function showHideToc() {
+function showHideToc(state) {
     var showHideButton = $("#showHideButton");
     var leftNavigation = $("#rax-leftnavigation");
     var content = $("#content");
 
-    if (showHideButton != undefined && showHideButton.hasClass("pointLeft")) {
+
+    if (state != "showing" && showHideButton != undefined && showHideButton.hasClass("pointLeft")) {
         //Hide TOC
         showHideButton.removeClass('pointLeft').addClass('pointRight');
         content.css("margin", "0 0 0 0");
         leftNavigation.css("display","none");
         showHideButton.attr("title", "Show the TOC tree");
 	$("body").addClass("sidebar");
+	eraseCookie("webhelp-sidebar");
+	createCookie("webhelp-sidebar","hidden",365);
     } else {
         //Show the TOC
         showHideButton.removeClass('pointRight').addClass('pointLeft');
@@ -82,9 +91,36 @@ function showHideToc() {
         leftNavigation.css("display","block");
         showHideButton.attr("title", "Hide the TOC Tree");
 	$("body").removeClass("sidebar");
+	eraseCookie("webhelp-sidebar");
+	createCookie("webhelp-sidebar","showing",365);
     }
 }
 
+
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+}
 
 /*
 CSS Browser Selector v0.4.0 (Nov 02, 2010)

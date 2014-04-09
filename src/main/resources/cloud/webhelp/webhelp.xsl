@@ -271,7 +271,8 @@ These problems go away when you add this IE=7 mode meta tag.
               <script type="text/javascript" src="{$webhelp.common.dir}jquery/treeview/jquery.treeview.min.js">
                   <xsl:comment> </xsl:comment>
               </script>
-              <script type="text/javascript" src="{$webhelp.common.dir}jquery/jquery.qtip-1.0.0-rc3/jquery.qtip-1.0.0-rc3.min.js">
+              <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+              <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
                   <xsl:comment>jQuery plugin for glossary popups. </xsl:comment>
               </script>
               
@@ -349,10 +350,7 @@ These problems go away when you add this IE=7 mode meta tag.
 	&lt;![endif]</xsl:text></xsl:comment>
               <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
               <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}jquery/treeview/jquery.treeview.css"/>
-              
-              <script type="text/javascript" src="{$webhelp.common.dir}jquery/jquery-1.4.3.min.js">
-                  <xsl:comment> </xsl:comment>
-              </script>
+              <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"><xsl:comment/></script>
               <script type="text/javascript" src="{$webhelp.common.dir}jquery/jquery-ui-1.8.2.custom.min.js">
                   <xsl:comment> </xsl:comment>
               </script>
@@ -362,7 +360,8 @@ These problems go away when you add this IE=7 mode meta tag.
               <script type="text/javascript" src="{$webhelp.common.dir}jquery/treeview/jquery.treeview.min.js">
                   <xsl:comment> </xsl:comment>
               </script>
-              <script type="text/javascript" src="{$webhelp.common.dir}jquery/jquery.qtip-1.0.0-rc3/jquery.qtip-1.0.0-rc3.min.js">
+              <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+              <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
                   <xsl:comment>jQuery plugin for glossary popups. </xsl:comment>
               </script>
               <!--Scripts/css stylesheets for Search-->
@@ -375,14 +374,12 @@ These problems go away when you add this IE=7 mode meta tag.
               <script type="text/javascript" src="search/nwSearchFnt.js">
                   <xsl:comment> </xsl:comment>
               </script>
-              
-              <!--script type="text/javascript" src="search/addition.js">
-            <xsl:comment></xsl:comment>
-        </script>
-        <script type="text/javascript" src="search/indexLoader.js">
-            <xsl:comment></xsl:comment>
-        </script-->
-              
+              <script type="text/javascript" src="search/addition.js">
+                 <xsl:comment></xsl:comment>
+              </script>
+              <script type="text/javascript" src="search/indexLoader.js">
+                 <xsl:comment></xsl:comment>
+              </script>
               
               <!--
            NOTE: Stemmer javascript files should be in format <language>_stemmer.js.

@@ -22,7 +22,20 @@ $(document).ready(function() {
     }
 
     syncToc(); //Synchronize the toc tree with the content pane, when loading the page.   
-    
+
+
+    $('.gloss').each(function() { 
+        $(this).qtip({
+            content: {
+		attr: 'def'
+            },
+            position: {
+                target: 'mouse', 
+                adjust: { x: 5, y: 5 } 
+            }
+        });
+    });
+
 });
 
 /**
@@ -81,6 +94,7 @@ function showHideToc(state) {
         content.css("margin", "0 0 0 0");
         leftNavigation.css("display","none");
         showHideButton.attr("title", "Show the TOC tree");
+	content.css("padding-left","0px");
 	$("body").addClass("sidebar");
 	eraseCookie("webhelp-sidebar");
 	createCookie("webhelp-sidebar","hidden",365);
@@ -88,6 +102,7 @@ function showHideToc(state) {
         //Show the TOC
         showHideButton.removeClass('pointRight').addClass('pointLeft');
         content.css("margin", "0 0 0 250px");
+	content.css("padding-left","40px");
         leftNavigation.css("display","block");
         showHideButton.attr("title", "Hide the TOC Tree");
 	$("body").removeClass("sidebar");

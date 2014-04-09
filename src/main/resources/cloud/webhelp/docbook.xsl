@@ -771,38 +771,18 @@ ERROR: Feedback email not set but internal comments are enabled.
 	  <strong><xsl:value-of select="$term"/>:</strong><xsl:text> </xsl:text>
 	  <xsl:apply-templates select="$definition/d:glossdef/*"/>
         </xsl:variable>
-             <script>
-             $(document).ready(function(){
-               $("a.gloss#<xsl:value-of select="translate($term,' ','_')"/>").qtip({
-               content: '<xsl:copy-of select='$displayDefinition'/>',
-               show: {event:'mouseover',delay:500},
-               hide: {event:'mouseout',delay:500, fixed:true},
-               style: { 
-                        width: 200,
-                        padding: 5,
-                        background: '#FFFFCC',
-                        color: 'black',
-                        textAlign: 'left',
-                        border: {
-                                    width: 1,
-                                    radius: 4,
-                                    color: '#EEEEBB'
-                        },
-                        tip: true,
-                        name: 'cream' // Inherit the rest of the attributes from the preset cream style
-                },
-                position: {
-                    corner: {
-                            target: 'topMiddle',
-                            tooltip: 'bottomLeft'
-                    }
-                }
-               });
-             });
-             </script>
-    
-        <a class="gloss" href="#"><xsl:attribute name="id"><xsl:value-of select="translate($term,' ','_')"></xsl:value-of></xsl:attribute> <xsl:value-of select="."/></a>
+        <a class="gloss" href="#">
+            <xsl:attribute name="def">
+                <xsl:apply-templates select="$displayDefinition" mode="escapeXMLMarkup"/>
+            </xsl:attribute>
+            <xsl:attribute name="id"><xsl:value-of select="translate($term,' ','_')"></xsl:value-of></xsl:attribute> <xsl:value-of select="."/></a>
     </xsl:template>
+    
+    <xsl:template match="*" mode="escapeXMLMarkup">&lt;<xsl:value-of select="name(.)"/><xsl:apply-templates select="@*" mode="escapeXMLMarkup"/>&gt;<xsl:apply-templates mode="escapeXMLMarkup"/>&lt;/<xsl:value-of select="name(.)"/>&gt;</xsl:template>
+    
+    <xsl:template match="@*" mode="escapeXMLMarkup"><xsl:text> </xsl:text><xsl:value-of select="name(.)"/>='<xsl:value-of select="."/>'</xsl:template>
+    
+    <xsl:template match="text()" mode="escapeXMLMarkup"><xsl:value-of select="normalize-space(.)"/><xsl:text> </xsl:text></xsl:template>
     
     <xsl:template match="* | comment() | processing-instruction() | @*" mode="make-definition">
         <xsl:copy>

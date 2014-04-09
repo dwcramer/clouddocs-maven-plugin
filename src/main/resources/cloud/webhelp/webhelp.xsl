@@ -29,7 +29,6 @@
 
     <xsl:param name="meta.robots"/>
     <xsl:param name="repository.commit"/>
-
     <xsl:param name="meta.robots.calculated">
       <xsl:choose>
 	<xsl:when test="$meta.robots = '1'">NOINDEX, NOFOLLOW</xsl:when>
@@ -216,6 +215,10 @@ These problems go away when you add this IE=7 mode meta tag.
         </xsl:call-template>
       </xsl:variable>
   	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <!--  <xsl:message>
+            webhelp.tree.cookie.id = <xsl:value-of select="$webhelp.tree.cookie.id"/> +++ <xsl:value-of select="count(//node())"/>
+            $webhelp.indexer.language = <xsl:value-of select="$webhelp.indexer.language"/> +++ <xsl:value-of select="count(//node())"/>
+        </xsl:message>-->
 	<xsl:if test="$meta.robots.calculated != ''">
 	  <meta name="robots" content="{$meta.robots.calculated}"/>
 	</xsl:if>
@@ -293,150 +296,155 @@ These problems go away when you add this IE=7 mode meta tag.
               </xsl:if>
           </xsl:when>
           <xsl:otherwise>
-              <script type="text/javascript">
-                  //The id for tree cookie
-                  var treeCookieId = "<xsl:value-of select="$webhelp.tree.cookie.id"/>";
-                  var language = "<xsl:value-of select="$webhelp.indexer.language"/>";
-                  var w = new Object();
-                  //Localization
-                  txt_filesfound = '<xsl:call-template name="gentext">
-                      <xsl:with-param name="key" select="'txt_filesfound'"/>
-                  </xsl:call-template>';
-                  txt_enter_at_least_1_char = "<xsl:call-template name="gentext">
-                      <xsl:with-param name="key" select="'txt_enter_at_least_1_char'"/>
-                  </xsl:call-template>";
-                  txt_browser_not_supported = "<xsl:call-template name="gentext">
-                      <xsl:with-param name="key" select="'txt_browser_not_supported'"/>
-                  </xsl:call-template>";
-                  txt_please_wait = "<xsl:call-template name="gentext">
-                      <xsl:with-param name="key" select="'txt_please_wait'"/>
-                  </xsl:call-template>";
-                  txt_results_for = "<xsl:call-template name="gentext">
-                      <xsl:with-param name="key" select="'txt_results_for'"/>
-                  </xsl:call-template>";
-              </script>
-              <style type="text/css">
-                  input {
-                  margin-bottom: 5px;
-                  margin-top: 2px;
-                  }
-                  
-                  .folder {
-                  display: block;
-                  height: 22px;
-                  padding-left: 20px;
-                  background: transparent url(<xsl:value-of select="$webhelp.common.dir"/>jquery/treeview/images/folder.gif) 0 0px no-repeat;
-                  }
-                  <!--[if IE]>
+        <script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "<xsl:value-of select="$webhelp.tree.cookie.id"/>";
+            var language = "<xsl:value-of select="$webhelp.indexer.language"/>";
+            var w = new Object();
+            //Localization
+            txt_filesfound = '<xsl:call-template name="gentext">
+                <xsl:with-param name="key" select="'txt_filesfound'"/>
+                </xsl:call-template>';
+            txt_enter_at_least_1_char = "<xsl:call-template name="gentext">
+                <xsl:with-param name="key" select="'txt_enter_at_least_1_char'"/>
+                </xsl:call-template>";
+            txt_browser_not_supported = "<xsl:call-template name="gentext">
+                <xsl:with-param name="key" select="'txt_browser_not_supported'"/>
+                </xsl:call-template>";
+            txt_please_wait = "<xsl:call-template name="gentext">
+                <xsl:with-param name="key" select="'txt_please_wait'"/>
+                </xsl:call-template>";
+            txt_results_for = "<xsl:call-template name="gentext">
+                <xsl:with-param name="key" select="'txt_results_for'"/>
+                </xsl:call-template>";
+        </script>
+        <style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(<xsl:value-of select="$webhelp.common.dir"/>jquery/treeview/images/folder.gif) 0 0px no-repeat;
+            }
+            <!--[if IE]>
             input {
                 margin-bottom: 5px;
                 margin-top: 2px;
             }
             <![endif]-->
-              </style>
-              <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
-              <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}css/positioning.css"/>
-              <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}css/custom.css"/>
-              <xsl:if test="//d:revhistory/d:revision and $canonical.url.base != ''">
-                  <link href="../atom.xml" type="application/atom+xml" rel="alternate" title="Document ATOM Feed" />
-              </xsl:if>
-              <xsl:if test="$canonical.url.base != ''">
-                  <link rel="canonical" >
-                      <xsl:attribute name="href"><xsl:value-of select="$canonical.url.base"/>/<xsl:apply-templates select="." mode="chunk-filename"/></xsl:attribute>
-                  </link>
-              </xsl:if>
-              <xsl:comment><xsl:text>[if IE]>
+        </style>
+	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}css/positioning.css"/>
+    <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}css/custom.css"/>
+    <xsl:if test="//d:revhistory/d:revision and $canonical.url.base != ''">
+        <link href="../atom.xml" type="application/atom+xml" rel="alternate" title="Document ATOM Feed" />
+    </xsl:if>
+    <xsl:if test="$canonical.url.base != ''">
+        <link rel="canonical" >
+            <xsl:attribute name="href"><xsl:value-of select="$canonical.url.base"/>/<xsl:apply-templates select="." mode="chunk-filename"/></xsl:attribute>
+        </link>
+    </xsl:if>
+	<xsl:comment><xsl:text>[if IE]>
 	&lt;link rel="stylesheet" type="text/css" href="</xsl:text><xsl:value-of select="$webhelp.common.dir"/>css/ie.css"/><xsl:text>
 	&lt;![endif]</xsl:text></xsl:comment>
-              <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
-              <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}jquery/treeview/jquery.treeview.css"/>
-              <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"><xsl:comment/></script>
-              <script type="text/javascript" src="{$webhelp.common.dir}jquery/jquery-ui-1.8.2.custom.min.js">
-                  <xsl:comment> </xsl:comment>
+        <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+        <link rel="stylesheet" type="text/css" href="{$webhelp.common.dir}jquery/treeview/jquery.treeview.css"/>
+
+              <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js">
+                  <xsl:comment/>
               </script>
-              <script type="text/javascript" src="{$webhelp.common.dir}jquery/jquery.cookie.js">
-                  <xsl:comment> </xsl:comment>
-              </script>
-              <script type="text/javascript" src="{$webhelp.common.dir}jquery/treeview/jquery.treeview.min.js">
-                  <xsl:comment> </xsl:comment>
-              </script>
+        <script type="text/javascript" src="{$webhelp.common.dir}jquery/jquery-ui-1.8.2.custom.min.js">
+            <xsl:comment> </xsl:comment>
+        </script>
+        <script type="text/javascript" src="{$webhelp.common.dir}jquery/jquery.cookie.js">
+            <xsl:comment> </xsl:comment>
+        </script>
+        <script type="text/javascript" src="{$webhelp.common.dir}jquery/treeview/jquery.treeview.min.js">
+            <xsl:comment> </xsl:comment>
+        </script>
               <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
               <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
                   <xsl:comment>jQuery plugin for glossary popups. </xsl:comment>
               </script>
-              <!--Scripts/css stylesheets for Search-->
-              <script type="text/javascript" src="search/htmlFileList.js">
-                  <xsl:comment> </xsl:comment>
-              </script>
-              <script type="text/javascript" src="search/htmlFileInfoList.js">
-                  <xsl:comment> </xsl:comment>
-              </script>
-              <script type="text/javascript" src="search/nwSearchFnt.js">
-                  <xsl:comment> </xsl:comment>
-              </script>
-              <script type="text/javascript" src="search/addition.js">
-                 <xsl:comment></xsl:comment>
-              </script>
-              <script type="text/javascript" src="search/indexLoader.js">
-                 <xsl:comment></xsl:comment>
-              </script>
-              
-              <!--
+            <!--Scripts/css stylesheets for Search-->
+        <script type="text/javascript" src="search/htmlFileList.js">
+            <xsl:comment> </xsl:comment>
+        </script>
+        <script type="text/javascript" src="search/htmlFileInfoList.js">
+            <xsl:comment> </xsl:comment>
+        </script>
+        <script type="text/javascript" src="search/nwSearchFnt.js">
+            <xsl:comment> </xsl:comment>
+        </script>
+        
+        <!--script type="text/javascript" src="search/addition.js">
+            <xsl:comment></xsl:comment>
+        </script>
+        <script type="text/javascript" src="search/indexLoader.js">
+            <xsl:comment></xsl:comment>
+        </script-->
+
+
+        <!--
            NOTE: Stemmer javascript files should be in format <language>_stemmer.js.
            For example, for English(en), source should be: "search/stemmers/en_stemmer.js"
            For country codes, see: http://www.uspto.gov/patft/help/helpctry.htm
         -->
-              <!--<xsl:message><xsl:value-of select="concat('search/stemmers/',$webhelp.indexer.language,'_stemmer.js')"/></xsl:message>-->
-              <script type="text/javascript" src="{concat('search/stemmers/',$webhelp.indexer.language,'_stemmer.js')}">
-                  <xsl:comment>//make this scalable to other languages as well.</xsl:comment>
-              </script>
-              
-              <!--Index Files:
+        <!--<xsl:message><xsl:value-of select="concat('search/stemmers/',$webhelp.indexer.language,'_stemmer.js')"/></xsl:message>-->
+        <script type="text/javascript" src="{concat('search/stemmers/',$webhelp.indexer.language,'_stemmer.js')}">
+            <xsl:comment>//make this scalable to other languages as well.</xsl:comment>
+        </script>
+
+        <!--Index Files:
             Index is broken in to three equal sized(number of index items) files. This is to help parallel downloading
             of files to make it faster.-->
-              <script type="text/javascript" src="search/index-1.js">
-                  <xsl:comment> </xsl:comment>
-              </script>
-              <script type="text/javascript" src="search/index-2.js">
-                  <xsl:comment> </xsl:comment>
-              </script>
-              <script type="text/javascript" src="search/index-3.js">
-                  <xsl:comment> </xsl:comment>
-              </script>
-              <!--End of index files -->
-              
-              <xsl:if test="$enable.google.analytics = '1' and $security = 'external' and not($google.analytics.id = '')">
-                  <script type="text/javascript">
-                      var _gaq = _gaq || [];
-                      _gaq.push(['_setAccount', '<xsl:value-of select="$google.analytics.id"/>']);
-                      <xsl:choose>
-                          <xsl:when test="$google.analytics.domain = ''"><!-- Do nothing --></xsl:when>
-                          <xsl:otherwise>
-                              _gaq.push(['_setDomainName', '<xsl:value-of select="$google.analytics.domain"/>']);	        
-                          </xsl:otherwise>	
-                      </xsl:choose>  
-                  </script>
-                  <script type="text/javascript" src="{$webhelp.common.dir}ga.js">
-                      <xsl:comment></xsl:comment>
-                  </script>
-                  <!-- Google Analytics Social Button Tracking -->
-                  <!-- <script type="text/javascript" src="http://www.tabpress.com/_js/ga_social_tracking.js"> -->
-                  <!--     <xsl:comment></xsl:comment> -->
-                  <!-- </script> -->
-                  <!-- Load Twitter JS-API asynchronously -->
-                  <xsl:if test="$social.icons != '0' and $security = 'external' ">
-                      <script>
-                          (function(){var twitterWidgets = document.createElement('script');
-                          twitterWidgets.type = 'text/javascript';
-                          twitterWidgets.async = true;
-                          twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-                          // Setup a callback to track once the script loads.
-                          twitterWidgets.onload = _ga.trackTwitter;
-                          document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-                          })();
-                      </script>
-                  </xsl:if>
-              </xsl:if>
+        <script type="text/javascript" src="search/index-1.js">
+            <xsl:comment> </xsl:comment>
+        </script>
+        <script type="text/javascript" src="search/index-2.js">
+            <xsl:comment> </xsl:comment>
+        </script>
+        <script type="text/javascript" src="search/index-3.js">
+            <xsl:comment> </xsl:comment>
+        </script>
+        <!--End of index files -->
+
+	<xsl:if test="$enable.google.analytics = '1' and $security = 'external' and not($google.analytics.id = '')">
+	  <script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', '<xsl:value-of select="$google.analytics.id"/>']);
+	    <xsl:choose>
+	        <xsl:when test="$google.analytics.domain = ''"><!-- Do nothing --></xsl:when>
+	        <xsl:otherwise>
+	    _gaq.push(['_setDomainName', '<xsl:value-of select="$google.analytics.domain"/>']);	        
+	        </xsl:otherwise>	
+	    </xsl:choose>  
+	  </script>
+	  <script type="text/javascript" src="{$webhelp.common.dir}ga.js">
+	    <xsl:comment></xsl:comment>
+	  </script>
+        <!-- Google Analytics Social Button Tracking -->
+	  <!-- <script type="text/javascript" src="http://www.tabpress.com/_js/ga_social_tracking.js"> -->
+	  <!--     <xsl:comment></xsl:comment> -->
+	  <!-- </script> -->
+	    <!-- Load Twitter JS-API asynchronously -->
+	    <xsl:if test="$social.icons != '0' and $security = 'external' ">
+	  <script>
+	    (function(){var twitterWidgets = document.createElement('script');
+        twitterWidgets.type = 'text/javascript';
+        twitterWidgets.async = true;
+        twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+        // Setup a callback to track once the script loads.
+        twitterWidgets.onload = _ga.trackTwitter;
+        document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+        })();
+	  </script>
+	    </xsl:if>
+	</xsl:if>
           </xsl:otherwise>
       </xsl:choose>
     </xsl:template>
@@ -450,6 +458,13 @@ These problems go away when you add this IE=7 mode meta tag.
             <xsl:with-param name="next" select="$next"/>
             <xsl:with-param name="nav.context" select="$nav.context"/>
         </xsl:call-template>
+        <!--xsl:call-template name="webhelptoc"/-->
+
+        <!--testing toc in the content page>
+        <xsl:call-template name="webhelptoctoc"/>
+        <xsl:if test="$webhelp.include.search.tab != 'false'">
+            <xsl:call-template name="search"/>
+        </xsl:if-->
     </xsl:template>
 
   <xsl:param name="status.bar.text">

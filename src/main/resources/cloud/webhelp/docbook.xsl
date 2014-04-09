@@ -309,23 +309,18 @@ ERROR: Feedback email not set but internal comments are enabled.
         <xsl:choose>
             <xsl:when test="$branding = 'rackspace' or $branding = 'rackspace-private-cloud'">
                 <div class="breadcrumbs">
-                    <a href="/">Home</a>
-                    <a><xsl:attribute name="href">
-                        <xsl:call-template name="href.target">
-                            <xsl:with-param name="object" select="$home"/>
-                        </xsl:call-template>
-                    </xsl:attribute><xsl:value-of select="normalize-space(//d:title[1])"/><xsl:apply-templates select="/*/d:info/d:releaseinfo[1]" mode="rackspace-title"/></a>
+                    <a href="/">Home</a><span class="breadcrumbstitle"><xsl:value-of select="normalize-space(//d:title[1])"/><xsl:apply-templates select="/*/d:info/d:releaseinfo[1]" mode="rackspace-title"/></span>
                     <xsl:choose>
                         <xsl:when test="normalize-space($autoPdfUrl) != '' and $useLatestSuffixInPdfUrl = '0'">
-                            <a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" class="pdficon" href="{concat(normalize-space(substring($autoPdfUrl,1,string-length($autoPdfUrl) - 3)), $pubdate,'.pdf')}"><img src="{$webhelp.common.dir}images/pdf.png"/></a>
+                            <a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" style="padding-right: 5px;" class="pdficon" href="{concat(normalize-space(substring($autoPdfUrl,1,string-length($autoPdfUrl) - 3)), $pubdate,'.pdf')}"><img src="{$webhelp.common.dir}images/pdf.png"/></a>
                         </xsl:when>
                         <xsl:when test="normalize-space($autoPdfUrl) != ''">
-                            <a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" class="pdficon" href="{normalize-space(substring($autoPdfUrl,1,string-length($autoPdfUrl) - 3))}-latest.pdf"><img src="{$webhelp.common.dir}images/pdf.png"/></a>
+                            <a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" style="padding-right: 5px;" class="pdficon" href="{normalize-space(substring($autoPdfUrl,1,string-length($autoPdfUrl) - 3))}-latest.pdf"><img src="{$webhelp.common.dir}images/pdf.png"/></a>
                         </xsl:when>
                         <xsl:when test="normalize-space($pdf.url) != '' and not(normalize-space($autoPdfUrl) != '')">
-                            <a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" class="pdficon" href="{normalize-space($pdf.url)}"><img src="{$webhelp.common.dir}images/pdf.png"/></a>
+                            <a onclick="_gaq.push(['_trackEvent', 'Header', 'pdfDownload', 'click', 1]);" alt="Download a pdf of this document" style="padding-right: 5px;" class="pdficon" href="{normalize-space($pdf.url)}"><img src="{$webhelp.common.dir}images/pdf.png"/></a>
                         </xsl:when>
-                    </xsl:choose><xsl:if test="//d:revhistory/d:revision and $canonical.url.base != ''">&#160;<a class="pdficon" href="../atom.xml"><img alt="Atom feed of this document" src="{$webhelp.common.dir}images/feed-icon.png"/></a>
+                    </xsl:choose><xsl:if test="//d:revhistory/d:revision and $canonical.url.base != ''">&#160;<a style="padding-right: 5px;" class="pdficon" href="../atom.xml"><img alt="Atom feed of this document" src="{$webhelp.common.dir}images/feed-icon.png"/></a>
                     </xsl:if>
                 </div>
                 <div id="toolbar-right">
@@ -347,26 +342,6 @@ ERROR: Feedback email not set but internal comments are enabled.
                                     </xsl:call-template>
                                 </a>
                             </xsl:if>
-                            
-                            <!-- "Up" link-->
-                            <xsl:choose>
-                                <xsl:when test="count($up)&gt;0
-                                    and generate-id($up) != generate-id($home)">
-                                    |
-                                    <a accesskey="u" class="navLinkUp" onclick="_gaq.push(['_trackEvent', 'Header', 'upLink', 'click', 1]);" tabindex="5">
-                                        <xsl:attribute name="href">
-                                            <xsl:call-template name="href.target">
-                                                <xsl:with-param name="object" select="$up"/>
-                                            </xsl:call-template>
-                                        </xsl:attribute>
-                                        <xsl:call-template name="navig.content">
-                                            <xsl:with-param name="direction" select="'up'"/>
-                                        </xsl:call-template>
-                                    </a>
-                                </xsl:when>
-                                <xsl:otherwise>&#160;</xsl:otherwise>
-                            </xsl:choose>
-                            
                             <xsl:if test="count($next)>0">
                                 |
                                 <a accesskey="n" class="navLinkNext" onclick="_gaq.push(['_trackEvent', 'Header', 'nextLink', 'click', 1]);" tabindex="5">

@@ -13,50 +13,26 @@ span.deleted { text-decoration: line-through;
 span.changed { background-color: #99ff99; }
 span.off     {  }
 
-
-body { font: 12px Verdana, Geneva, sans-serif; }
-
-p, ul, ol, li, td { 
+#content-wrapper, #toolbar { font: 12px Verdana, Geneva, sans-serif; }
+.qtip-content { font: 10.5px Verdana, Geneva, sans-serif; }
+#content-wrapper p, #content-wrapper ul, #content-wrapper ol, #content-wrapper li, #content-wrapper td { 
     font: 10pt Verdana, Geneva, sans-serif; 
 }
 
-h1 { font: 15pt Arial, Helvetica, geneva;
+#feedbackid {
+    padding-left: 10px;
+}
+
+#content-wrapper h1 { font: 15pt Arial, Helvetica, geneva;
      color: black !important;
 }
-h2 { font: normal 12pt Arial, Helvetica, geneva;
+#content-wrapper h2 { font: normal 12pt Arial, Helvetica, geneva;
 	color: black !important;
-}
-
-/* #header { */
-/*     position: fixed; */
-/*     width: 100%; */
-/*     height: 97px; */
-/*     top: 0; */
-/*     right: 0; */
-/*     bottom: auto; */
-/*     left: 0; */
-/*     border-bottom: 1px solid #bbc4c5; */
-/*     z-index: 2000; */
-/*     background: #282828 url("../images/main_bg_fade.png") top left no-repeat; */
-/* } */
-
-#header h1 {
-    color: #fff;
-    margin-left: 310px;
-}
-
-.pdficon {
-    vertical-align: -10%;
-}
-
-#tabs{
-    float: left;
-    top: -3px;
 }
 
 #toolbar-right {
 	float: right;
-	margin-right: 40px;
+	margin-right: 10px;
 }
 
 #toolbar-right a {
@@ -73,30 +49,24 @@ h2 { font: normal 12pt Arial, Helvetica, geneva;
     height: auto;
 }
 
-
 #rax-leftnavigation {
     overflow: auto;
     position: absolute;
     height: 98%;
     top: 10px;
     bottom: 0;
-    left: 0;
+    left: 10px;
     width: 280px;
     border-right:1px solid #bbc4c5;
     padding: 0px;
-
 }
-
 
 #rax-treeDiv {
     overflow: auto;
     position: relative;
     height: auto;
- 
     bottom: 0;
-    left: 0;
-
-
+    left: 0px;
 }
 
 #searchDiv {
@@ -117,12 +87,10 @@ h2 { font: normal 12pt Arial, Helvetica, geneva;
     right: auto; /*  bottom: 20px;  */
     margin-left: 250px;
     height: inherit;
-    padding-left: 30px;
+    padding-left: 40px;
     padding-right: 0px;
     color: #000000;
     /*border-left: 2px solid #cccccc; overflow :scroll;*/
-
-
 }
 
 #navheader {
@@ -142,28 +110,9 @@ h2 { font: normal 12pt Arial, Helvetica, geneva;
 #content pre.literallayout, #content pre.programlisting, #content pre.screen
 {
     -x-system-font: none;
-    //background-color: silver;
     border-bottom-color: #DEDEDE !important;
     border-bottom-style: solid !important;
     border-bottom-width: 1px !important;
-    border-left-color-ltr-source: physical !important;
-    border-left-color-rtl-source: physical !important;
-    border-left-color-value: #DEDEDE !important;
-    border-left-style-ltr-source: physical !important;
-    border-left-style-rtl-source: physical !important;
-    border-left-style-value: solid !important;
-    border-left-width-ltr-source: physical !important;
-    border-left-width-rtl-source: physical !important;
-    border-left-width-value: 1px !important;
-    border-right-color-ltr-source: physical !important;
-    border-right-color-rtl-source: physical !important;
-    border-right-color-value: #DEDEDE !important;
-    border-right-style-ltr-source: physical !important;
-    border-right-style-rtl-source: physical !important;
-    border-right-style-value: solid !important;
-    border-right-width-ltr-source: physical !important;
-    border-right-width-rtl-source: physical !important;
-    border-right-width-value: 1px !important;
     border-top-color: #DEDEDE !important;
     border-top-style: solid !important;
     border-top-width: 1px !important;
@@ -236,18 +185,23 @@ h2 { font: normal 12pt Arial, Helvetica, geneva;
 	}
 	
 #toolbar div.breadcrumbs {
-        display: inline;
+    display: inline;
 	margin-top: 30px;
 	margin-bottom: 0px;
 }
 
-#toolbar div.breadcrumbs a {
+#toolbar div.breadcrumbs a, #toolbar div.breadcrumbs span.breadcrumbstitle {
 	padding-right: 12px;
 	margin-right: 5px;
 	text-decoration: none;
-	color: #575757;
+	color: #1e82d7;
 	text-transform: uppercase;
 	font-size: 10px;
+}
+
+#toolbar div.breadcrumbs span.breadcrumbstitle {
+    color: #666666;
+    line-height: 28px;
 }
 
 #toolbar div.breadcrumbs a:first-child {
@@ -258,6 +212,9 @@ h2 { font: normal 12pt Arial, Helvetica, geneva;
 	text-decoration: underline;
 }
 
+.pdficon {
+    vertical-align: -10%;
+}
 
 table.navLinks {
 	margin-right: 20px;
@@ -342,7 +299,6 @@ tr th, tr th .internal, tr th .added, tr th .changed
     /* margin-left: 10px; */
     padding-top: 10px;
     padding-left: 10px;
-    padding-right: 10px;
 }
 
 #toolbar-inner {
@@ -371,13 +327,6 @@ body p.breadcrumbs {
 	line-height: 28px;
 }
 
-
-#header h1 {
-    position: fixed;
-    top: 35px;
-    left: -15px;
-    color: white !important;
-}
 
 body.sidebar #toolbar{
    left: 0px;
@@ -500,6 +449,14 @@ body div#content div.navfooter table tbody td, body div#content div.navfooter ta
 
 .olinkdocname{ font-style: italic; }
 
+
+div.toc p {
+    padding-left: 5px;
+}
+
+ul.ui-autocomplete li.ui-menuitem {
+    padding: 7px 10px;
+}
 
 @media print {
 

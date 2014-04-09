@@ -668,6 +668,16 @@ These problems go away when you add this IE=7 mode meta tag.
                                             id="tocLoading" style="display:block;"/>
                                         <div id="ulTreeDiv" style="display:none">
                                             <ul id="tree" class="filetree">
+                                                <xsl:if test="$branding = 'rackspace' or $branding = 'rackspace-private-cloud'">
+                                                    <li tabindex="2">
+                                                        <xsl:if test="self::d:book">
+                                                            <xsl:attribute name="id">webhelp-currentid</xsl:attribute>
+                                                        </xsl:if>
+                                                        <span class="file">
+                                                            <a href="{$legal.notice.url}">Legal notices</a>
+                                                        </span>
+                                                    </li>
+                                                </xsl:if>
                                                 <xsl:apply-templates select="/*/*" mode="webhelptoc">
                                                     <xsl:with-param name="currentid" select="$currentid"/>
                                                 </xsl:apply-templates>

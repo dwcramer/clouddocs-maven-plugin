@@ -264,10 +264,10 @@ These problems go away when you add this IE=7 mode meta tag.
               <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"><xsl:comment/></script>
               <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"><xsl:comment/></script>
               <script type="text/javascript" 
-                  src="http://docs.rackspace.com/rax-headerservice/rest/service/raxheaderservice.js?headerdivid=raxheaderfooterservice-headercontent&amp;footerdivid=raxheaderfooterservice-footercontent&amp;contentdivid=content-wrapper&amp;filter=api_docs&amp;team=api">
+                  src="http://content-services.rackspace.com/rax-headerservice/rest/service/raxheaderservice.js?headerdivid=raxheaderfooterservice-headercontent&amp;footerdivid=raxheaderfooterservice-footercontent&amp;contentdivid=content-wrapper&amp;filter=api_docs&amp;team=api">
                   <xsl:comment/> 
               </script>
-              <script type="text/javascript" src="http://docs-feedback.rackspace.com/rax-feedback-services/rest/service/raxfeedbackservice.js?feedbackdivid=feedbackid&amp;servername=docs-feedback.rackspace.com&amp;debug=true"><xsl:comment/></script>
+              <script type="text/javascript" src="http://content-services.rackspace.com/rax-feedback-services/rest/service/raxfeedbackservice.js?feedbackdivid=feedbackid&amp;servername=content-services.rackspace.com&amp;debug=true"><xsl:comment/></script>
               <script type="text/javascript" src="{$webhelp.common.dir}jquery/jquery.cookie.js">
                   <xsl:comment> </xsl:comment>
               </script>

@@ -43,10 +43,9 @@
                     <xsl:when test="$branding = 'rackspace' or $branding = 'rackspace-private-cloud'">
                         <div id="content-wrapper">
                             <div id="content">
+                                <xsl:call-template name="user.header.content"/>
                                 
                                 <xsl:copy-of select="$content"/>
-                                
-                                <xsl:call-template name="user.header.content"/>
                                 
                                 <div id="feedbackid"><xsl:comment/></div>
                                 

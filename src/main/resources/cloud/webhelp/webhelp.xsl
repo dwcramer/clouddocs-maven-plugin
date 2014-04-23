@@ -482,16 +482,15 @@ These problems go away when you add this IE=7 mode meta tag.
     <xsl:when test="$security = 'external'"/>
     </xsl:choose><xsl:if test="not(normalize-space($status.bar.text) = '')"><xsl:value-of select="normalize-space($status.bar.text)"/> -&#160;</xsl:if> 
   </xsl:param>
-
+    
     <xsl:template name="user.header.content">
-      <div class="statustext">
-	<xsl:choose>
-	  <xsl:when test="not($rackspace.status.text = '')">   <!--TODO: Someday repeat this using javascript -->
-	    <xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>
-	  </xsl:when>
-	  <xsl:otherwise>&#160;</xsl:otherwise>
-	</xsl:choose>
-      </div>
+        <xsl:choose>
+            <xsl:when test="not($rackspace.status.text = '')">   <!--TODO: Someday repeat this using javascript -->
+                <div class="statustext">
+                    <xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>&#160;<xsl:value-of select="$rackspace.status.text"/>
+                </div>
+            </xsl:when>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template name="user.footer.navigation">
